@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assignment-1: Linear Data Structures</title>
+  </head>
+  <body>
+    <p>
+      Solve these questions in a Jupyter notebook. Share the URL of the Jupyter
+      notebook/GitHub.<br /><br /><br />
+
+      Q1. Write a program to find all pairs of an integer array whose sum is
+      equal to a given number?<br /><br />
+
+      Q2. Write a program to reverse an array in place? In place means you
+      cannot create a new array. You have to update the original array.<br /><br />
+
+      Q3. Write a program to check if two strings are a rotation of each
+      other?<br /><br />
+
+      Q4. Write a program to print the first non-repeated character from a
+      string?<br /><br />
+
+      Q5. Read about the Tower of Hanoi algorithm. Write a program to implement
+      it.<br /><br />
+
+      Q6. Read about infix, prefix, and postfix expressions. Write a program to
+      convert postfix to prefix expression.<br /><br />
+
+      Q7. Write a program to convert prefix expression to infix expression.<br /><br />
+
+      Q8. Write a program to check if all the brackets are closed in a given
+      code snippet.<br /><br />
+
+      Q9. Write a program to reverse a stack.<br /><br />
+
+      Q10. Write a program to find the smallest number using a stack.
+    </p>
+    <script>
+      //Question:-1
+
+      function findPairs(arr, target) {
+        const pairs = [];
+        for (let i = 0; i < arr.length; i++) {
+          for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i] + arr[j] === target) {
+              pairs.push([arr[i], arr[j]]);
+            }
+          }
+        }
+        return pairs;
+      }
+
+      // Example usage:
+      const arr = [2, 4, 6, 8, 10];
+      const target = 12;
+      const pairs = findPairs(arr, target);
+      console.log(pairs); 
+      </script>
+<script>
+      //Question:-2
+
+      function reverseArrayInPlace(arr) {
+        let start = 0;
+        let end = arr.length - 1;
+
+        while (start < end) {
+          [arr[start], arr[end]] = [arr[end], arr[start]];
+          start++;
+          end--;
+        }
+      }
+
+      // Example usage:
+      const arrr = [1, 2, 3, 4, 5];
+      reverseArrayInPlace(arrr);
+      console.log(arrr);
+      </script>
+<script>
+      //Question:-3
+      function isRotation(str1, str2) {
+        if (str1.length !== str2.length) {
+          return false;
+        }
+        const concatenated = str1 + str1;
+        return concatenated.includes(str2);
+      }
+
+      // Example usage:
+      const str1 = "hello";
+      const str2 = "lohel";
+      const result = isRotation(str1, str2);
+      console.log(result);
+    </script>
+    <script>
+      //Question:-4
+
+      function firstNonRepeatedChar(str) {
+        const charCount = new Map();
+
+        // Count the frequency of each character in the string
+        for (let char of str) {
+          charCount.set(char, (charCount.get(char) || 0) + 1);
+        }
+
+        // Find the first character with a frequency of 1
+        for (let char of str) {
+          if (charCount.get(char) === 1) {
+            return char;
+          }
+        }
+
+        // If no character has a frequency of 1, return null
+        return null;
+      }
+
+      // Example usage:
+      const str = "hello world";
+      const firstNonRepeated = firstNonRepeatedChar(str);
+      console.log(firstNonRepeated);
+    </script>
+    <script>
+      //Question:-5
+      function towerOfHanoi(numDisks, source, auxiliary, destination) {
+        if (numDisks === 1) {
+          console.log(`Move disk 1 from ${source} to ${destination}`);
+          return;
+        }
+
+        towerOfHanoi(numDisks - 1, source, destination, auxiliary);
+        console.log(`Move disk ${numDisks} from ${source} to ${destination}`);
+        towerOfHanoi(numDisks - 1, auxiliary, source, destination);
+      }
+
+      // Example usage:
+      towerOfHanoi(3, "A", "B", "C");
+    </script>
+    <script>
+      //Question:-6
+      function postfixToPrefix(postfix) {
+        const stack = [];
+
+        for (let token of postfix.split(" ")) {
+          if (!isNaN(token)) {
+            stack.push(token);
+          } else {
+            const operand2 = stack.pop();
+            const operand1 = stack.pop();
+            stack.push(`${token}${operand1}${operand2}`);
+          }
+        }
+
+        return stack.pop();
+      }
+
+      // Example usage:
+      const postfix = "2 3 + 5 *";
+      const prefix = postfixToPrefix(postfix);
+      console.log(prefix);
+    </script>
+    <script>
+      //Question:-7
+      function prefixToInfix(prefix) {
+        const stack = [];
+
+        for (let i = prefix.length - 1; i >= 0; i--) {
+          const token = prefix[i];
+          if (!isNaN(token)) {
+            stack.push(token);
+          } else {
+            const operand1 = stack.pop();
+            const operand2 = stack.pop();
+            stack.push(`(${operand1}${token}${operand2})`);
+          }
+        }
+
+        return stack.pop();
+      }
+
+      // Example usage:
+      const prefi = "*+235";
+      const infix = prefixToInfix(prefi);
+      console.log(infix);
+    </script>
+    <script>
+      //Question:-8
+      function checkBrackets(code) {
+        const stack = [];
+
+        for (let i = 0; i < code.length; i++) {
+          const c = code.charAt(i);
+          if (c === "(" || c === "[" || c === "{") {
+            stack.push(c);
+          } else if (c === ")") {
+            if (stack.length === 0 || stack.pop() !== "(") {
+              return false;
+            }
+          } else if (c === "]") {
+            if (stack.length === 0 || stack.pop() !== "[") {
+              return false;
+            }
+          } else if (c === "}") {
+            if (stack.length === 0 || stack.pop() !== "{") {
+              return false;
+            }
+          }
+        }
+
+        return stack.length === 0;
+      }
+
+      // Example usage:
+      const code1 = "function add(a, b) { return a + b; }";
+      const code2 = "function add(a, b) { return a + b; } }";
+      console.log(checkBrackets(code1)); // true
+      console.log(checkBrackets(code2)); // false
+    </script>
+    <script>
+      //Question:-9
+      function reverseStack(stack) {
+        const auxStack = [];
+
+        while (stack.length > 0) {
+          auxStack.push(stack.pop());
+        }
+
+        while (auxStack.length > 0) {
+          stack.push(auxStack.pop());
+        }
+      }
+
+      // Example usage:
+      const stack = [1, 2, 3, 4, 5];
+      reverseStack(stack);
+      console.log(stack); // [5, 4, 3, 2, 1]
+    </script>
+    <script>
+      //Question:-10
+      function findSmallestNumber(stack) {
+        let smallest = Number.MAX_SAFE_INTEGER;
+
+        for (let i = 0; i < stack.length; i++) {
+          if (stack[i] < smallest) {
+            smallest = stack[i];
+          }
+        }
+
+        return smallest;
+      }
+
+      // Example usage:
+      const stac = [5, 3, 8, 1, 9, 2];
+      const smallest = findSmallestNumber(stac);
+      console.log(smallest); // 1
+    </script>
+  </body>
+</html>
